@@ -109,12 +109,6 @@ class CmsPage extends CI_Controller
         $data['seller'] = $this->CmsPage_Model->getSellers($seller_id);
         $data['allSellers'] = $this->CmsPage_Model->getSellers();
 
-        // $this->load->view('administrator/header-script');
-        // $this->load->view('administrator/header');
-        // $this->load->view('administrator/header-bottom');
-        // $this->load->view('CMSPages/updateCmsPage', $data);
-        // $this->load->view('administrator/footer');
-
         $this->load->view('generalTheme/header');
         $this->load->view('generalTheme/sidebar');
         $this->load->view('CMSPages/update_cms_page', $data);
@@ -153,7 +147,7 @@ class CmsPage extends CI_Controller
                     $comment = 'cms update: <b>' . $row['title'] . '</b>';
                     $this->Category_Model->user_history($track_id, $ip, $comment);
 
-                    // * save sco url
+                    // * save seo url
                     $query = "cms_id=" . $last_id;
                     $sco = $this->ScoUrl_Model->getSco($query);
 

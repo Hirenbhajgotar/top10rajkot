@@ -9,7 +9,7 @@ class Auth extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Is_unique'); // * check unique value
         $this->load->library('ajax_pagination');
-
+        
         $this->perPage = 5;
     }
     
@@ -59,9 +59,11 @@ class Auth extends CI_Controller
     public function logout()
     {
         // unset user data
-        $this->session->unset_userdata('auth_id');
-        $this->session->unset_userdata('auth_email');
-        $this->session->unset_userdata('auth_login');
+        $this->session->unset_userdata('authenticated_buyer_mobile');
+        $this->session->unset_userdata('authenticated_buyer_id');
+        // $this->session->unset_userdata('auth_id');
+        // $this->session->unset_userdata('auth_email');
+        // $this->session->unset_userdata('auth_login');
 
         //Set Message
         $this->session->set_flashdata('user_loggedout', 'You are logged out.');
@@ -75,8 +77,10 @@ class Auth extends CI_Controller
             redirect('posts');
         }
 
-        $data['title'] = 'Sign Up';
+        $data['metaData'] = $this->Settings_model->get_settings();
 
+        $data['title'] = 'Sign Up';
+        
         $this->form_validation->set_rules('first_name', 'First Name', 'required|trim|xss_clean');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|xss_clean');
         $this->form_validation->set_rules('email', 'Email', 'required|is_unique[tr_buyer.email]');
@@ -85,8 +89,8 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'matches[password]|trim|xss_clean');
 
         if ($this->form_validation->run() === FALSE) {
-            $this->load->view('frontend/theme/default/templates/header');
-            $this->load->view('frontend/theme/default/auth/register', $data);
+            $this->load->view('frontend/theme/default/templates/header', $data);
+            $this->load->view('frontend/theme/default/auth/register');
             $this->load->view('frontend/theme/default/templates/footer');
         } else {
             //Encrypt Password
@@ -98,6 +102,119 @@ class Auth extends CI_Controller
             $this->session->set_flashdata('user_registered', 'You are registered and can log in.');
             redirect(base_url());
         }
+    }
+
+    public function check_mobile_exist()
+    {
+        header('Access-Control-Allow-Origin: *');
+        $this->load->helper('string');
+        $mobile = $this->input->post('mobile_no');
+        $query = $this->db->where('mobile_no', $mobile)
+                          ->get(DB_BUYER);
+
+        if ($query->num_rows() > 0) {
+            // $this->session->set_userdata($mobile);
+            $this->session->unset_userdata('otp');
+            $this->session->set_userdata('otp', random_string('numeric', 6));
+            $this->session->unset_userdata('registered');
+            $this->session->set_userdata('registered', true);
+            
+            echo $this->session->userdata('otp');
+            echo '<br>';
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
+
+
+    // * store buyer's information
+    public function store_buyer_info()
+    {
+        header('Access-Control-Allow-Origin: *');
+        $this->load->helper('string');
+        // $otp = random_string('numeric', 6);
+        // $auth_sess_data = [
+        //     'authenticated_buyer_mobile' => $this->input->post('mobile_no'),
+        //     'auth_name_verify' => $this->input->post('name'),
+        //     'auth_email_verify' => $this->input->post('email'),
+        //     'auth_city_verify' => $this->input->post('city')
+        // ];
+        // $this->session->set_userdata($auth_sess_data);
+        $this->session->unset_userdata('otp');
+        $this->session->set_userdata('otp', random_string('numeric', 6));
+        // $this->session->unset_userdata('otp');
+        echo $this->session->userdata('otp');
+        echo '<br>';
+        echo 1;
+    }
+
+    // *otp verification
+    public function otp_verification()
+    {
+        header('Access-Control-Allow-Origin: *');
+        $otp = $this->input->post('otp');
+        if ($this->session->userdata('otp') == $otp) {
+            // $this->session->unset_userdata('registered');
+            // #check buyer is login or not
+            if ($this->session->userdata('registered')) {
+                $buyer_mobile = $this->input->post('mobile_no');
+                $where = ['mobile_no' => $buyer_mobile];
+                $buyer_data = $this->Auth_model->get_buyer($where);
+                
+                // #set buyer mobile number on session
+                $this->session->set_userdata('authenticated_buyer_mobile', $buyer_mobile);
+                $this->session->set_userdata('authenticated_buyer_id', $buyer_data->id);
+                
+                // #set buyer history
+                $this->Auth_model->set_buyer_history($buyer_mobile);
+                $this->session->unset_userdata('registered');
+            } else {
+                $this->session->unset_userdata('registered');
+
+                $buyer_mobile = $this->input->post('mobile_no');
+                $this->session->set_userdata('authenticated_buyer_mobile', $buyer_mobile);
+                $this->Auth_model->register();
+            }
+            echo json_encode(['verify' => 'data_verify', 'buyer_id' => $buyer_data->id]);
+            // echo 'verify';
+        } else {
+            echo "not_verify";
+        }
+    }
+
+
+    // *resend otp
+    public function resend_otp()
+    {
+        $this->load->helper('string');
+        $this->session->unset_userdata('otp');
+        $this->session->set_userdata('otp', random_string('numeric', 6));
+        // echo random_string('numeric', 6);
+        echo $this->session->userdata('otp');
+    }
+
+
+    // * buyer inquiry
+    public function buyer_inquiry()
+    {
+        $buyer_inquiry = $this->security->xss_clean(trim($this->input->post('buyer_inquiry')));
+        $seller_id = $this->security->xss_clean(trim($this->input->post('seller_id_input')));
+        $category_id = $this->security->xss_clean(trim($this->input->post('category_id_input')));
+        $buyer_id = $this->security->xss_clean(trim($this->input->post('buyer_id_input')));
+        
+        $data = [
+            'buyer_inquiry' => $buyer_inquiry,
+            'seller_id' => $seller_id,
+            'category_id' => $category_id,
+            'buyer_id' => $buyer_id,
+        ];
+        if ($this->Auth_model->set_buyer_to_leads($data)) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+
     }
 
     // * show profile

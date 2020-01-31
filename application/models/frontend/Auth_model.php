@@ -1,6 +1,13 @@
 <?php
 class Auth_model extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('db_tables');
+        $this->db_tables->index();
+    }
+
     public function login($email, $e_password)
     {
         $this->db->where('email', $email);
@@ -18,21 +25,68 @@ class Auth_model extends CI_Model
     // * insert seller
     public function register($e_password = '')
     {
-        $data = [
-            'first_name' => $this->input->post('first_name'),
-            'last_name' => $this->input->post('last_name'),
+        $buyer_data = [];
+        $buyer_data = [
             'email' => $this->input->post('email'),
             'mobile_no' => $this->input->post('mobile_no'),
-            'password' => $e_password,
-            'gender' => $this->input->post('gender'),
-            'email_verify' => 1,
+            'email_verify' => 0,
             'mobile_verify' => 1,
             'date_addedd' => date("Y-m-d H:i:s"),
             'date_modified' => date("Y-m-d H:i:s"),
             'last_login' => date("Y-m-d H:i:s"),
             'status' => 1,
         ];
-        return $this->db->insert('tr_buyer', $data);
+        if ($this->input->post('name') != '') {
+            $name = explode(" ", $this->input->post('name'));
+
+            if (array_key_exists(0, $name)) {
+                $buyer_data['last_name'] = set_value($name[0], '');
+            }
+            if (array_key_exists(1, $name)) {
+                $buyer_data['last_name'] = set_value($name[1], '');
+            }
+        }
+        $this->db->insert(DB_BUYER, $buyer_data);
+        $insert_id = $this->db->insert_id();
+        
+        // #buyer address
+        $buyer_adress = [
+            'buyer_id'      => $insert_id,
+            'seller_id'     => 0,
+            'city'          => $this->input->post('city'),
+            'date_added'    => date("Y-m-d H:i:s"),
+            'date_modified' => date("Y-m-d H:i:s")
+        ];
+        $this->db->insert(DB_ADDRESS, $buyer_adress);
+
+        // #save buyer history
+        $buyer_history = [
+            'buyer_id'   => $insert_id,
+            'track_id'   => 'buyer_id='. $insert_id,
+            'comment'    => '<b>Buyer LogedIn</b>',
+            'ip'         => $this->input->ip_address(),
+            'date_added' => date("Y-m-d H:i:s"),
+            'is_view'    => 0
+        ];
+        return $this->db->insert(DB_BUYER_HISTORY, $buyer_history);
+    }
+
+    // *set buyer history
+    public function set_buyer_history($mobile = '')
+    {
+        $query =  $this->db->where('mobile_no', $mobile)
+                           ->get(DB_BUYER);
+        $res = $query->row();
+        
+        $buyer_history = [
+            'buyer_id'   => $res->id,
+            'track_id'   => 'buyer_id='.$res->id,
+            'comment'    => '<b>buyer logedin</b>',
+            'ip'         => $this->input->ip_address(),
+            'date_added' => date("Y-m-d H:i:s"),
+            'is_view'    => 0,
+        ];
+        return $this->db->insert(DB_BUYER_HISTORY, $buyer_history);
     }
 
     // * get buyer data
@@ -44,6 +98,24 @@ class Auth_model extends CI_Model
             return $query->row();
         }
     }
+
+    // * set data on buyer_to_leads
+    public function set_buyer_to_leads($data)
+    {
+        $res = [
+            'buyer_id' => $data['buyer_id'],
+            'seller_id' => $data['seller_id'],
+            'category_id' => $data['category_id'],
+            'description' => $data['buyer_inquiry'],
+            'is_view' => 0,
+            'send_to_seller' => 0,
+            'status' => 1,
+            'date_added' => date("Y-m-d H:i:s"),
+            // 'date_expired' => date("Y-m-d H:i:s"),
+        ];
+
+        return $this->db->insert(DB_BUYER_TO_LEADS, $res);
+    } 
 
     // *update profile
     public function update_profile($id = '', $e_password = '')

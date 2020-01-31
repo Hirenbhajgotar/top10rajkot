@@ -1,25 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-// $this->set_directory("frontend");
-// $this->set_directory("frontend");
 
-
-//user routes
-$route['register'] = 'frontend/Auth/register';
+//* user routes
+$route['signin'] = 'frontend/Auth/register';
 $route['login'] = 'frontend/Auth/login';
 $route['logout'] = 'frontend/Auth/logout';
 $route['My-profile/(:any)'] = 'frontend/Auth/profile/$1';
 $route['change-password/(:any)'] = 'frontend/Auth/change_password/$1';
 $route['forgot-password'] = 'frontend/Auth/forgot_password';
-$route['verify-otp'] = 'frontend/Auth/verify_otp';
+// $route['verify-otp'] = 'frontend/Auth/verify_otp';
+$route['verify-otp'] = 'frontend/Auth/otp_verification';
 $route['new-password'] = 'frontend/Auth/new_password';
-// $route['new-password'] = 'frontend/Auth/new_password';
+$route['new-password'] = 'frontend/Auth/new_password';
+// $route['signin'] = 'frontend/frontend/Auth/register';
+
+$route['mobileverify'] = 'frontend/Auth/check_mobile_exist';
+$route['buyer_info'] = 'frontend/Auth/store_buyer_info';
 $route['update-profile/(:any)'] = 'frontend/Auth/update_profile/$1';
 $route['category/(:any)'] = 'frontend/Category/index/$1';
 
+// * buyer inquiry
+$route['inquiry'] = 'frontend/Auth/buyer_inquiry';
+// * resend otp
+$route['resend_otp'] = 'frontend/Auth/resend_otp';
+// * Search products
+$route['search'] = 'frontend/Search/index';
 
 
-$route['seller/(:any)'] = 'Seller/seller_list/$1';
+
+// $route['seller/(:any)'] = 'Seller/seller_list/$1';
 $route['products/(:any)'] = 'frontend/Products/product_list/$1';
 
 // $route['seller/(:any)'] = 'Seller/index/$1';
@@ -131,6 +140,7 @@ $route['administrator/testimonials/list'] = 'administrator/list_testimonial';
 $route['administrator/testimonials/update/(:any)'] = 'administrator/update_testimonial/(:any)';
 
 $route['(:any)'] = 'pages/view/$1';
+$route['admin/(:any)'] = 'admin/(:any)/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 

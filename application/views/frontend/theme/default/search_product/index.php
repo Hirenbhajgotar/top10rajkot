@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <h3><?php echo $sec_meta_data->category_name ?></h3>
+                <h3>Search products</h3>
             </div>
             <div class="col-sm-6">
 
@@ -17,31 +17,33 @@
             <div class="col-md-3 mb60">
                 <h4 class="left-title mb20">Search Filter</h4>
                 <div class="mb40">
-                    <form>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Keywords...">
-                        </div>
-                        <div class="form-group mb15">
-                            <select class="form-control" title="Location">
-                                <option>Paris</option>
-                                <option>London</option>
-                                <option>New York</option>
-                                <option>Tokyo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" title="Category">
-                                <option>Restaurants</option>
-                                <option>Jobs</option>
-                                <option>Property</option>
-                                <option>Automotive</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Min Price...">
-                        </div>
-                        <input type="submit" class="btn btn-dark btn-lg btn-block" value="Search">
-                    </form>
+                    <!-- <form> -->
+                    <?= form_open("search", ['method' => 'get']) ?>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Keywords...">
+                    </div>
+                    <div class="form-group mb15">
+                        <select class="form-control" title="Location">
+                            <option>Paris</option>
+                            <option>London</option>
+                            <option>New York</option>
+                            <option>Tokyo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="category" class="form-control" title="Category">
+                            <?php foreach ($products as $item) { ?>
+                                <option><?= $item->category_name ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Min Price...">
+                    </div>
+                    <input type="submit" class="btn btn-dark btn-lg btn-block" value="Search">
+                    <!-- </form> -->
+                    <input type="hidden" name="product" value="<?= $search_key ?>">
+                    <?= form_close() ?>
                 </div>
                 <h4 class="left-title mb20">Recent Listings</h4>
                 <ul class="list-unstyled recent-item-card mb40">
@@ -115,35 +117,34 @@
                             </select>
                         </div>
                     </div>
-                    <h3 class="font300">45 Results Found</h3>
+                    <!-- <h3 class="font300">45 Results Found</h3> -->
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <?php
                         foreach ($products as $item) {
-                            // echo '<pre>';
+                            //     echo '<pre>';
                             // print_r($item);
                             // echo '</pre>';
-                            // exit;
                         ?>
                             <div class="row listing-row">
                                 <div class="col-sm-3">
                                     <?php
-                                    if ($item->product_image) { ?>
-                                        <a href="#"><img src="<?php echo base_url("assets/images/products/{$item->product_image}") ?>" alt="" class="img-responsive"></a>
+                                    if ($item->p_product_image) { ?>
+                                        <a href="#"><img src="<?php echo base_url("assets/images/products/{$item->p_product_image}") ?>" alt="" class="img-responsive"></a>
                                     <?php } else { ?>
                                         <a href="#"><img src="<?php echo base_url("assets/images/no-image-available-icon-6.png") ?>" alt="" class="img-responsive"></a>
                                     <?php } ?>
                                 </div>
                                 <div class="col-sm-5">
-                                    <h4><a href="#"><?php echo $item->product_name ?></a></h4>
+                                    <h4><a href="#"><?php echo $item->p_product_name ?></a></h4>
                                     <p>
-                                        <?php echo $item->product_description ?>
+                                        <?php echo $item->p_product_description ?>
                                     </p>
                                 </div>
                                 <div class="col-md-4 col-sm-4">
                                     <a href="<?= base_url("seller/{$item->seller_id}") ?>">
-                                        <h4><?php echo $item->seller_firstname . ' ' . $item->seller_firstname ?></h4>
+                                        <h4><?php echo $item->seller_firstname . ' ' . $item->seller_lastname ?></h4>
                                     </a>
                                     <?php if ($item->seller_email_verify == 1) { ?>
                                         <span>Eamil verified | </span>

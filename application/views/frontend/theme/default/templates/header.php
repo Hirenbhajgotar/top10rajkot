@@ -8,16 +8,28 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <?php
     $currentURL = current_url();
-    if ($currentURL === base_url("/")) { ?>
+    if (isset($metaData)) { ?>
         <meta name="description" content="<?= $metaData[11]->value ?>">
         <meta name="keywords" content="<?= $metaData[6]->value ?>">
         <meta name="author" content="<?= $metaData[0]->value ?>">
         <title><?= $metaData[7]->value ?></title>
-    <?php } else { ?>
+    <?php } else if (isset($sec_meta_data)) { ?>
         <meta name="description" content="<?php echo $sec_meta_data->meta_description ?>">
         <meta name="keywords" content="<?php echo $sec_meta_data->meta_keyword ?>">
         <meta name="author" content="<?= $metaData[0]->value ?>">
         <title><?php echo $sec_meta_data->meta_title ?> | <?= $metaData[7]->value ?></title>
+    <?php }
+
+    if ($currentURL === base_url("/") or $currentURL === base_url("signin")) { ?>
+        <!-- <meta name="description" content="<?= $metaData[11]->value ?>">
+        <meta name="keywords" content="<?= $metaData[6]->value ?>">
+        <meta name="author" content="<?= $metaData[0]->value ?>">
+        <title><?= $metaData[7]->value ?></title> -->
+    <?php } else { ?>
+        <!-- <meta name="description" content="<?php echo $sec_meta_data->meta_description ?>">
+        <meta name="keywords" content="<?php echo $sec_meta_data->meta_keyword ?>">
+        <meta name="author" content="<?= $metaData[0]->value ?>">
+        <title><?php echo $sec_meta_data->meta_title ?> | <?= $metaData[7]->value ?></title> -->
     <?php } ?>
     <link rel="icon" href="<?php echo base_url("assets/images/fevicon_icon/{$metaData[5]->value}"); ?>" type="image/x-icon">
 
@@ -48,7 +60,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?= base_url("/") ?>"><img class="siteLogo" src="<?= base_url("assets/images/{$metaData[4]->value}") ?>" alt=""></a>
+                <a class="navbar-brand" href="<?= base_url("/") ?>"><img class="siteLogo" src="<?= base_url("assets/images/site_logo/{$metaData[4]->value}") ?>" alt=""></a>
                 <!-- <a class="navbar-brand" href="<?= base_url("/") ?>"><img src="<?= base_url("application/views/frontend/theme/default/assets/images/logo.png") ?>" alt=""></a> -->
             </div>
             <div id="navbar" class="navbar-collapse collapse">
@@ -81,26 +93,136 @@
                         Messages</a>
                 </li>
 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign In <span class="caret"></span></a>
+                <?php if ($this->session->userdata('authenticated_buyer_mobile')) { ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account<span class="caret"></span></a>
 
-                    <ul class="dropdown-menu" style="width:250px;">
-                        <li>
-                            <input type="submit" value="Sign In" class="btn btn-primary btn-lg btn-block btnSignin">
-                            <span>New to Top10Rajkot ? <a href="#">Register Now</a></span>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
-                        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a></li>
-                        <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
-                        <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
-                        <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                        <ul class="dropdown-menu" style="width:250px;">
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>My Profile</a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a></li>
+                            <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
+                            <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+                            <li><a href="<?= base_url("logout") ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                <?php } else { ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign In <span class="caret"></span></a>
 
-                    </ul>
-                </li>
+                        <ul class="dropdown-menu" style="width:250px;">
+                            <li>
+                                <!-- <input href="hiren" type="submit" value="Sign In" class="btn btn-primary btn-lg btn-block btnSignin"> -->
+                                <a href="#" type="button" data-toggle="modal" data-target="#auth_buyer_mobile_model" class="btn btn-primary btn-lg btn-block btnSignin">Sign In</a>
+                                <span>New to Top10Rajkot ? <a href="#" data-toggle="modal" data-target="#auth_buyer_mobile_model">Register Now</a></span>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
+                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a></li>
+                            <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
+                            <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+
+                        </ul>
+                    </li>
+                <?php } ?>
+
                 </ul>
             </div>
             <!--/.nav-collapse -->
         </div>
         <!--/.container-fluid -->
     </nav>
+
+    <div class="modal fade auth_buyer_mobile_model" id="auth_buyer_mobile_model" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" onclick="return  window.location.reload();" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Join Top10Rajkot</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- mobile verify -->
+                    <form id="check_mobile_verify">
+                        <div class="form-group" id="check_mobile">
+                            <label>Mobile Number</label>
+                            <input type="text" name="mobile_no" id="mobile_no" maxlength="10" minlength="10" value="<?= set_value("mobile_no") ?>" class="form-control" placeholder="01-394-4932">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Next</button>
+                    </form>
+                    <!-- buyer info -->
+                    <form id="buyer_info_form" style="display: none">
+                        <div class="form-group" id="check_mobile">
+                            <label>Name</label>
+                            <input type="text" name="name" id="name" value="<?= set_value("name") ?>" class="form-control" placeholder="jon doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" name="email" id="email" value="<?= set_value("email") ?>" class="form-control" placeholder="jondoe@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="city" id="city" value="<?= set_value("city") ?>" class="form-control" placeholder="jondoe@email.com">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Next</button>
+                    </form>
+                    <!-- otp -->
+                    <form id="buyer_otp_form" style="display: none">
+                        <div class="form-group" id="check_mobile">
+                            <label>Otp</label>
+                            <input type="text" name="otp" id="otp" value="<?= set_value("otp") ?>" class="form-control" placeholder="1-2-3-5-4">
+                            <span><small id="otp_error" style="color: #c64c40"></small></span>
+                        </div>
+                        <a style="cursor: pointer" onclick="resend_otp()">Resend otp</a><br>
+                        <button type="submit" class="btn btn-primary">Next</button>
+                    </form>
+                    <!-- thsnks msg -->
+                    <div id="buyer_thanks_popup" class='' style="display: none">
+                        <h4>Thank You for Registration</h4>
+                        <br>
+                        <button type="button" class="btn btn-default" onclick="return  window.location.reload();" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <!-- buyer_inquiry_model -->
+    <div class="modal fade" id="buyer_inquiry_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Join Top10Rajkot</h4>
+                </div>
+                <form id="buyer_inquiry_form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Message:</label>
+                            <textarea name="buyer_inquiry" class="form-control" rows="4" id="message-text"></textarea>
+                        </div>
+                        <input type="hidden" id="seller_id_input_create" name="seller_id_input">
+                        <input type="hidden" id="category_id_input_create" name="category_id_input">
+                        <input type="hidden" id="buyer_id_input_create" name="buyer_id_input">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send message</button>
+                    </div>
+                </form>
+
+                <div id="inquiry_thankyou_popup" style="display: none">
+                    <div class="modal-body">
+                        <h4>Thank You for Inquiry</h4>
+                        <br>
+                        <button type="button" class="btn btn-default" onclick="return  window.location.reload();" data-dismiss="modal">Close</button>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send message</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>

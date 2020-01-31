@@ -17,10 +17,7 @@ class CmsPage_Model extends CI_Model
             'date_modified' => date("Y-m-d H:i:s"),
             'status' => $this->input->post('status'),
         ];
-        // echo '<pre>';
-        // print_r($data);
-        // echo '</pre>';
-        // exit;
+        
         $query = $this->db->insert('tr_cms_page', $data);
         $insert_id = $this->db->insert_id();
         return $insert_id;

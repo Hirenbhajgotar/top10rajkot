@@ -8,9 +8,7 @@ class Home extends CI_Controller
         $this->load->model('frontend/Banner_model');
         $this->load->library('form_validation');
         $this->load->model('Is_unique'); // * check unique value
-        $this->load->library('ajax_pagination');
 
-        $this->perPage = 5;
     }
 
 

@@ -1,13 +1,13 @@
-<?php 
+<?php
 class Category extends CI_Controller
 {
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('frontend/Categories_model');
     }
-    
+
     public function index($seo)
     {
         $data['metaData'] = $this->Settings_model->get_settings();
@@ -24,5 +24,3 @@ class Category extends CI_Controller
         $this->load->view('frontend/theme/default/templates/footer');
     }
 }
-
-?>

@@ -6,14 +6,16 @@
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="text-center">
                         <h3>Search for products & find verified sellers near you</h3>
-                        <form role="form">
-                            <div class="input-group input-group-lg">
-                                <input type="text" class="form-control " placeholder="What are you looking for... ">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-lg" type="button">Search</button>
-                                </span>
-                            </div>
-                        </form>
+                        <!-- <form role="form"> -->
+                        <?= form_open("search", ['method' => 'get']) ?>
+                        <div class="input-group input-group-lg">
+                            <input type="text" name="product" id="product" class="form-control " placeholder="What are you looking for... ">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary btn-lg" type="submit">Search</button>
+                            </span>
+                        </div>
+                        <?= form_close() ?>
+                        <!-- </form> -->
                     </div>
                 </div>
             </div>
@@ -74,12 +76,18 @@
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3 text-center center-heading mb10">
                 <h2>Feature Categories</h2>
+                <?php
+                echo $this->session->userdata('otp');
+                // if ($this->session->userdata('otp') and (time() - $_SESSION['otp'] > 10)) {
+                //     $this->session->unset_userdata('otp');
+                // }
+                ?>
 
             </div>
         </div>
         <!--/row-->
         <?php
-       
+
         ?>
         <?php if ($categories) { ?>
             <div class="row">
