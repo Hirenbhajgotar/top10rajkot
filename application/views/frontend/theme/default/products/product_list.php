@@ -1,37 +1,51 @@
-<div class="mt-4">
-    <br>
-    <p><span>Seller: <?= $seller_info->seller_firstname . ' ' . $seller_info->seller_lastname ?></span></p>
-    <p>
-        <span>Emal: <?= $seller_info->seller_email ?> </span>
-    </p>
-    <p>
-        <span>Gst no.: <?= $seller_info->seller_gst_number ?> </span>
-    </p>
-    <p>
-        <span>Last login: <?= date("M d,Y", strtotime($seller_info->seller_last_login))  ?> </span>
-    </p>
-</div>
-<div class="row">
-    <h4><?= $title ?></h4>
+<?php $url = current_url(); ?>
+   <div class="page-bread mb70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Products</h3>
+						
+                    </div>
+					<div class="col-sm-6">
+                        <ul class="nav navbar-nav navbar-right">
+							<li class="dropdown">
+								<a href="<?php echo site_url(); ?>seller/<?php echo $seo; ?>" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;">Home</a>
 
-    <?php
-    if ($products) {
-        foreach ($products as $item) { ?>
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="<?= base_url("assets/images/products/{$item->product_image}") ?>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $item->product_name ?></h5>
-                        <h5>Model: <?= $item->product_model ?></h5>
-                        <p class="card-text">
-                            <?= $item->product_description ?>
-                        </p>
-                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+							</li>
+							
+							<li class="dropdown">
+								<a href="<?php echo $url; ?>" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;">Product</a>
+
+							</li>
+							
+							<li class="dropdown">
+								<a href="<?php echo site_url(); ?>contact/<?php echo $seo; ?>" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;">Contact</a>
+
+							</li>
                     </div>
                 </div>
             </div>
-        <?php }
-    } else { ?>
-        <h4>Nothing to show</h4>
-    <?php } ?>
-</div>
+        </div>
+   <div class="container">
+               <div class="row">  
+				  <?php foreach ($products as $pre) {  ?>
+				     <div class="col-sm-4 mb30">
+                        <div class="card-overlay">
+							<?php if($pre->product_image) { ?>
+								<img src="<?php echo site_url(); ?>assets/images/products/<?php echo $pre->product_image; ?>" class="img-responsive" alt="" style="height: 150px; width: 1000px;">
+							<?php } else { ?>
+							    <img src="<?php echo site_url(); ?>assets/images/no_image.PNG" class="img-responsive" alt="" style="height: 150px; width: 1000px;">
+							<?php } ?>
+                            <div class="card-hover">
+                                <div class="card-content">
+								  
+                                    <h3><a href="#"><?php echo $pre->product_name; ?></a></h3>
+									
+                                </div><!--/card-content-->
+								
+                            </div>
+                        </div>
+                    </div>
+				<?php } ?>
+            </div>
+	   </div>

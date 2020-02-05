@@ -106,6 +106,7 @@ class Auth_model extends CI_Model
             'buyer_id' => $data['buyer_id'],
             'seller_id' => $data['seller_id'],
             'category_id' => $data['category_id'],
+            'product_id' => $data['product_id'],
             'description' => $data['buyer_inquiry'],
             'is_view' => 0,
             'send_to_seller' => 0,
@@ -113,9 +114,25 @@ class Auth_model extends CI_Model
             'date_added' => date("Y-m-d H:i:s"),
             // 'date_expired' => date("Y-m-d H:i:s"),
         ];
+        $this->db->insert(DB_BUYER_TO_LEADS, $res);
+        $last_inserted_id = $this->db->insert_id();
+        
+        $chat_msg = [
+            'buyer_id' => $data['buyer_id'],
+            'seller_id' => $data['seller_id'],
+            'lead_id' => $last_inserted_id,
+            'messages' => $data['buyer_inquiry'],
+            'is_buyer_read' => 0,
+            'is_seller_read' => 0,
+            'send_from_buyer' => 1,
+            'send_from_seller' => 0,
+            'date_added' => date("Y-m-d H:i:s"),
+        ];
+        return $this->db->insert(DB_CHATS_MESSAGE, $chat_msg);
 
-        return $this->db->insert(DB_BUYER_TO_LEADS, $res);
     } 
+
+    
 
     // *update profile
     public function update_profile($id = '', $e_password = '')

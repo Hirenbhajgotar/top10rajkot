@@ -9,10 +9,31 @@ class Products_model extends CI_Model
     }
 
     // !get products
-    public function get_products($id = '')
+    public function get_products($seo = '')
     {
-        $query = $this->db->get_where("tr_products", $id);
+        // $query = $this->db->get_where("tr_products", $id);
+        // return $query->result();
+        $query = $this->db->query("Select * from " . DB_SEO_URL . " se LEFT JOIN " . DB_PRODUCTS . " p ON TRIM(BOTH 'seller_id=' FROM se.query) = p.seller_id where se.query LIKE 'seller_id=%' AND se.keyword LIKE '$seo'");
         return $query->result();
+    }
+
+    public function get_seller_metadata($seo)
+    {
+        $query = $this->db->query("Select * from " . DB_SEO_URL . " se LEFT JOIN " . DB_SELLER_HOME_CONTENT . " h ON TRIM(BOTH 'seller_id=' FROM se.query) = h.seller_id where se.query LIKE 'seller_id=%' AND se.keyword LIKE '$seo'");
+        return $query->row();
+    }
+
+    public function get_product_details($seo)
+    {
+
+        $query = $this->db->query("Select * from " . DB_SEO_URL . " se LEFT JOIN " . DB_PRODUCTS . " p ON TRIM(BOTH 'product_id=' FROM se.query) = p.id where se.query LIKE 'product_id=%' AND se.keyword LIKE '$seo'");
+        return $query->row_array();
+    }
+    public function get_releted_products($id)
+    {
+
+        $query = $this->db->query("Select * from " . DB_PRODUCTS . " p where p.category_id = $id");
+        return $query->result_array();
     }
 
     // !get search product

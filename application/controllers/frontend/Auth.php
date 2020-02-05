@@ -1,4 +1,6 @@
-<?php 
+<?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, OPTIONS");
 class Auth extends CI_Controller
 {
     
@@ -61,6 +63,8 @@ class Auth extends CI_Controller
         // unset user data
         $this->session->unset_userdata('authenticated_buyer_mobile');
         $this->session->unset_userdata('authenticated_buyer_id');
+        // $this->session->unset_userdata('otp');
+        
         // $this->session->unset_userdata('auth_id');
         // $this->session->unset_userdata('auth_email');
         // $this->session->unset_userdata('auth_login');
@@ -106,7 +110,7 @@ class Auth extends CI_Controller
 
     public function check_mobile_exist()
     {
-        header('Access-Control-Allow-Origin: *');
+        // header('Access-Control-Allow-Origin: *');
         $this->load->helper('string');
         $mobile = $this->input->post('mobile_no');
         $query = $this->db->where('mobile_no', $mobile)
@@ -120,6 +124,10 @@ class Auth extends CI_Controller
             $this->session->set_userdata('registered', true);
             
             echo $this->session->userdata('otp');
+            // $this->session->sess_destroy();
+            // echo '<pre>';
+            // print_r($this->session->all_userdata());
+            // echo '</pre>';
             echo '<br>';
             echo 1;
         } else {
@@ -131,7 +139,7 @@ class Auth extends CI_Controller
     // * store buyer's information
     public function store_buyer_info()
     {
-        header('Access-Control-Allow-Origin: *');
+        // header('Access-Control-Allow-Origin: *');
         $this->load->helper('string');
         // $otp = random_string('numeric', 6);
         // $auth_sess_data = [
@@ -152,8 +160,15 @@ class Auth extends CI_Controller
     // *otp verification
     public function otp_verification()
     {
-        header('Access-Control-Allow-Origin: *');
+        // header('Access-Control-Allow-Origin: *');
         $otp = $this->input->post('otp');
+        // echo '<pre>';
+        // print_r($this->session->all_userdata());
+        // echo '</pre>';
+        // // // exit;
+        // // // echo $otp;
+        // // echo "<br>";
+        // echo $this->session->userdata('otp');
         if ($this->session->userdata('otp') == $otp) {
             // $this->session->unset_userdata('registered');
             // #check buyer is login or not
@@ -179,7 +194,8 @@ class Auth extends CI_Controller
             echo json_encode(['verify' => 'data_verify', 'buyer_id' => $buyer_data->id]);
             // echo 'verify';
         } else {
-            echo "not_verify";
+            // echo "not_verify";
+            echo json_encode(['not_verify' => 'data_not_verify']);
         }
     }
 
@@ -187,6 +203,7 @@ class Auth extends CI_Controller
     // *resend otp
     public function resend_otp()
     {
+        // header('Access-Control-Allow-Origin: *');
         $this->load->helper('string');
         $this->session->unset_userdata('otp');
         $this->session->set_userdata('otp', random_string('numeric', 6));
@@ -202,12 +219,14 @@ class Auth extends CI_Controller
         $seller_id = $this->security->xss_clean(trim($this->input->post('seller_id_input')));
         $category_id = $this->security->xss_clean(trim($this->input->post('category_id_input')));
         $buyer_id = $this->security->xss_clean(trim($this->input->post('buyer_id_input')));
+        $product_id = $this->security->xss_clean(trim($this->input->post('product_id_input')));
         
         $data = [
             'buyer_inquiry' => $buyer_inquiry,
             'seller_id' => $seller_id,
             'category_id' => $category_id,
             'buyer_id' => $buyer_id,
+            'product_id' => $product_id,
         ];
         if ($this->Auth_model->set_buyer_to_leads($data)) {
             echo 1;

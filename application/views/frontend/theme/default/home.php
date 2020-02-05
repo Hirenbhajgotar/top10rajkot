@@ -76,18 +76,10 @@
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3 text-center center-heading mb10">
                 <h2>Feature Categories</h2>
-                <?php
-                echo $this->session->userdata('otp');
-                // if ($this->session->userdata('otp') and (time() - $_SESSION['otp'] > 10)) {
-                //     $this->session->unset_userdata('otp');
-                // }
-                ?>
-
             </div>
         </div>
         <!--/row-->
         <?php
-
         ?>
         <?php if ($categories) { ?>
             <div class="row">

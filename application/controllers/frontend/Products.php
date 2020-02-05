@@ -11,20 +11,55 @@ class Products extends CI_Controller
         
     }
 
-    public function product_list($id = '')
+    // public function product_list($id = '')
+    // {
+    //     $data['title'] = "products";
+    //     $data['products'] = $this->Products_model->get_products(['seller_id' => $id]);
+    //     $data['seller_info'] = $this->Seller_model->seller_info($id);
+
+    //     $this->load->view('frontend/theme/default/templates/header');
+    //     $this->load->view('frontend/theme/default/products/product_list', $data);
+    //     $this->load->view('frontend/theme/default/templates/footer');
+    // }
+    public function product_list($seo, $page = 'product_list')
     {
-        // SELECT b.*, s.*, bi.* FROM `tr_banner` b LEFT JOIN `tr_seller` s ON (b.seller_id = s.id) LEFT JOIN `tr_banner_image` bi ON (b.id = bi.banner_id) WHERE b.seller_id = 39
-        $data['title'] = "products";
-        $data['products'] = $this->Products_model->get_products(['seller_id' => $id]);
-        $data['seller_info'] = $this->Seller_model->seller_info($id);
+        $data['seo'] = $seo;
+        $data['metaData'] = $this->Settings_model->get_settings();
+        $data['sec_meta_data'] = $this->Products_model->get_seller_metadata($seo);
+        $data['products'] = $this->Products_model->get_products($seo);
+
+        $this->load->view('frontend/theme/default/templates/header', $data);
+        $this->load->view('frontend/theme/default/products/' . $page);
+        $this->load->view('frontend/theme/default/templates/footer');
+    } 
+
+    public function product_detail($seo, $page = 'product_detail')
+    {
+
+        $data['metaData'] = $this->Settings_model->get_settings();
+
+        $data['sec_meta_data'] = $this->Products_model->get_product_details($seo);
+
+        $data['products'] = $this->Products_model->get_product_details($seo);
+        $data['re_products'] = $this->Products_model->get_releted_products($data['products']['category_id']);
+
+        //$data['seller_info'] = $this->Seller_model->seller_info($id);
         // echo '<pre>';
         // print_r($data);
         // echo '</pre>';
         // exit;
-        $this->load->view('frontend/theme/default/templates/header');
-        $this->load->view('frontend/theme/default/products/product_list', $data);
+        // * set metadata
+        $data['metaData']['title'] = $data['sec_meta_data']['meta_title'];
+        $data['metaData']['description'] = $data['sec_meta_data']['meta_description'];
+        $data['metaData']['keyword'] = $data['sec_meta_data']['meta_keyword'];
+        $data['metaData']['icon'] = $data['metaData'][5]->value;
+        $data['metaData']['logo'] = $data['metaData'][4]->value;
+
+        $this->load->view('frontend/theme/default/templates/header', $data);
+        $this->load->view('frontend/theme/default/products/' . $page);
         $this->load->view('frontend/theme/default/templates/footer');
     } 
+
 }
 
 ?>

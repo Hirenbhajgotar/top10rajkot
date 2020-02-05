@@ -5,45 +5,27 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <?php
-    $currentURL = current_url();
-    if (isset($metaData)) { ?>
-        <meta name="description" content="<?= $metaData[11]->value ?>">
-        <meta name="keywords" content="<?= $metaData[6]->value ?>">
-        <meta name="author" content="<?= $metaData[0]->value ?>">
-        <title><?= $metaData[7]->value ?></title>
-    <?php } else if (isset($sec_meta_data)) { ?>
-        <meta name="description" content="<?php echo $sec_meta_data->meta_description ?>">
-        <meta name="keywords" content="<?php echo $sec_meta_data->meta_keyword ?>">
-        <meta name="author" content="<?= $metaData[0]->value ?>">
-        <title><?php echo $sec_meta_data->meta_title ?> | <?= $metaData[7]->value ?></title>
-    <?php }
+    <meta name="author" content="Top10Rajkot">
 
-    if ($currentURL === base_url("/") or $currentURL === base_url("signin")) { ?>
-        <!-- <meta name="description" content="<?= $metaData[11]->value ?>">
-        <meta name="keywords" content="<?= $metaData[6]->value ?>">
-        <meta name="author" content="<?= $metaData[0]->value ?>">
-        <title><?= $metaData[7]->value ?></title> -->
-    <?php } else { ?>
-        <!-- <meta name="description" content="<?php echo $sec_meta_data->meta_description ?>">
-        <meta name="keywords" content="<?php echo $sec_meta_data->meta_keyword ?>">
-        <meta name="author" content="<?= $metaData[0]->value ?>">
-        <title><?php echo $sec_meta_data->meta_title ?> | <?= $metaData[7]->value ?></title> -->
-    <?php } ?>
-    <link rel="icon" href="<?php echo base_url("assets/images/fevicon_icon/{$metaData[5]->value}"); ?>" type="image/x-icon">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <meta name="description" content="<?= $metaData['description'] ?>">
+    <meta name="keywords" content="<?= $metaData['keyword'] ?>">
+    <title><?= $metaData['title'] ?></title>
+    <link rel="icon" href="<?php echo base_url("assets/images/fevicon_icon/{$metaData['icon']}"); ?>" type="image/x-icon">
 
 
     <!-- plugins -->
     <link href="<?= base_url("application/views/frontend/theme/default/assets/css/bundle.css") ?>" rel="stylesheet">
     <link href="<?= base_url("application/views/frontend/theme/default/assets/css/style.css") ?>" rel="stylesheet">
-
+    <link href="<?= base_url("application/views/frontend/theme/default/assets/css/flexslider.css") ?>" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+
 </head>
 
 <body>
@@ -60,72 +42,92 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?= base_url("/") ?>"><img class="siteLogo" src="<?= base_url("assets/images/site_logo/{$metaData[4]->value}") ?>" alt=""></a>
+                <a class="navbar-brand" href="<?= base_url("/") ?>"><img class="siteLogo" src="<?= base_url("assets/images/site_logo/{$metaData['logo']}") ?>" alt=""></a>
                 <!-- <a class="navbar-brand" href="<?= base_url("/") ?>"><img src="<?= base_url("application/views/frontend/theme/default/assets/images/logo.png") ?>" alt=""></a> -->
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="/" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
-
+                    <li>
+                        <a href="<?php echo base_url("/") ?>" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-question-circle-o" aria-hidden="true"></i>
-                            Help <span class="caret"></span></a>
-                        <ul class="dropdown-menu"><a href="#">
-                                <li><i class="fa fa-phone-square" aria-hidden="true"></i>
-                                    Call Us on 098 xx xxxx
-                            </a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                            Helpdesk & Information</a></li>
-                    <li><a href="#">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            Complaints/Feedback</a></li>
-
-                </ul>
-                </li>
-
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                        Messages</a>
-                </li>
-
-                <?php if ($this->session->userdata('authenticated_buyer_mobile')) { ?>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account<span class="caret"></span></a>
-
-                        <ul class="dropdown-menu" style="width:250px;">
-                            <li class="divider"></li>
-                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>My Profile</a></li>
-                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a></li>
-                            <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
-                            <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
-                            <li><a href="<?= base_url("logout") ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-                        </ul>
-                    </li>
-                <?php } else { ?>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign In <span class="caret"></span></a>
-
-                        <ul class="dropdown-menu" style="width:250px;">
+                            Help <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
                             <li>
-                                <!-- <input href="hiren" type="submit" value="Sign In" class="btn btn-primary btn-lg btn-block btnSignin"> -->
-                                <a href="#" type="button" data-toggle="modal" data-target="#auth_buyer_mobile_model" class="btn btn-primary btn-lg btn-block btnSignin">Sign In</a>
-                                <span>New to Top10Rajkot ? <a href="#" data-toggle="modal" data-target="#auth_buyer_mobile_model">Register Now</a></span>
+                                <a href="#"><i class="fa fa-phone-square" aria-hidden="true"></i>
+                                    Call Us on 098 xx xxxx
+                                </a>
                             </li>
-                            <li class="divider"></li>
-                            <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
-                            <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a></li>
-                            <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
-                            <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
-                            <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
-
+                            <li>
+                                <a href="#"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    Helpdesk & Information
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    Complaints/Feedback
+                                </a>
+                            </li>
                         </ul>
                     </li>
-                <?php } ?>
+
+                    <?php if ($this->session->userdata('authenticated_buyer_mobile')) { ?>
+                        <li>
+                            <a href="<?php echo base_url("message") ?>" class="dropdown-toggle">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                Messages</a>
+                        </li>
+                    <?php } else { ?>
+                        <li>
+                            <!-- <a href="#" data-toggle="modal" data-target="#auth_buyer_mobile_model" class="btn btn-primary btn-lg btn-block btnSignin">Sign In</a> -->
+                            <a href="" class="dropdown-toggle" data-toggle="modal" data-target="#auth_buyer_mobile_model">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                Messages</a>
+                        </li>
+                    <?php } ?>
+
+
+                    <?php if ($this->session->userdata('authenticated_buyer_mobile')) { ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account<span class="caret"></span></a>
+
+                            <ul class="dropdown-menu" style="width:250px;">
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>My Profile</a></li>
+                                <li>
+
+                                    <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
+                                <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+                                <li><a href="<?= base_url("logout") ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php } else { ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign In <span class="caret"></span></a>
+
+                            <ul class="dropdown-menu" style="width:250px;">
+                                <li>
+                                    <!-- <input href="hiren" type="submit" value="Sign In" class="btn btn-primary btn-lg btn-block btnSignin"> -->
+                                    <a href="#" type="button" data-toggle="modal" data-target="#auth_buyer_mobile_model" class="btn btn-primary btn-lg btn-block btnSignin">Sign In</a>
+                                    <span>New to Top10Rajkot ? <a href="#" data-toggle="modal" data-target="#auth_buyer_mobile_model">Register Now</a></span>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
+                                <li>
+                                    <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
+                                <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+                                <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
+
+                            </ul>
+                        </li>
+                    <?php } ?>
 
                 </ul>
             </div>
@@ -204,6 +206,7 @@
                         </div>
                         <input type="hidden" id="seller_id_input_create" name="seller_id_input">
                         <input type="hidden" id="category_id_input_create" name="category_id_input">
+                        <input type="hidden" id="product_id_input_create" name="product_id_input">
                         <input type="hidden" id="buyer_id_input_create" name="buyer_id_input">
                     </div>
                     <div class="modal-footer">

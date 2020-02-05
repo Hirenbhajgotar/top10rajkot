@@ -26,6 +26,7 @@
 			define('DB_USER_HISTORY', 'tr_user_history');
 			define('DB_BUYER_HISTORY', 'tr_buyer_history');
 			define('DB_BUYER_TO_LEADS', ' tr_buyer_to_leads');
+			define('DB_CHATS_MESSAGE', 'tr_chats_messages');
 		}
 	}
 	

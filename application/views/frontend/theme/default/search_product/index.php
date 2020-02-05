@@ -152,7 +152,7 @@
                                     <?php if ($item->seller_mobile_verify == 1) { ?>
                                         <span> Mobile verified</span>
                                     <?php } ?>
-                                    <button class="btn btn-primary" onclick="call_inquiry('<?php echo $item->seller_id ?>', '<?php echo $item->category_id ?>')">Enquiry</button>
+                                    <button class="btn btn-primary" onclick="call_inquiry('<?php echo $item->seller_id ?>', '<?php echo $item->category_id ?>', '<?php echo $item->product_id ?>')">Enquiry</button>
                                 </div>
                             </div>
                             <hr>

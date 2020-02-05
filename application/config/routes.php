@@ -26,10 +26,29 @@ $route['resend_otp'] = 'frontend/Auth/resend_otp';
 // * Search products
 $route['search'] = 'frontend/Search/index';
 
+// * seller
+$route['seller'] = 'Seller_/Seller_login';
+$route['seller/seller_login'] = 'Seller_/Seller_login/login';
+$route['seller/view'] = 'Seller_/Seller_profile/view';
+$route['seller/about'] = 'Seller_/Seller_about_us/about';
+$route['logoutseller'] = 'Seller_/Seller_login/logout';
 
+$route['seller/(:any)'] = 'frontend/Seller_profile/view/$1';
+$route['contact/(:any)'] = 'frontend/Seller_contact/contact/$1';
+$route['contact_submit/(:any)'] = 'frontend/Seller_contact/submit_contact/$1';
+$route['product/(:any)'] = 'frontend/Products/product_list/$1';
+$route['product_details/(:any)'] = 'frontend/Products/product_detail/$1';
 
 // $route['seller/(:any)'] = 'Seller/seller_list/$1';
 $route['products/(:any)'] = 'frontend/Products/product_list/$1';
+
+// * Chate message
+$route['message'] = 'frontend/Message/index';
+// $route['chat/(:num)'] = 'frontend/Message/get_lead_messages/$1';
+$route['chat'] = 'frontend/Message/get_lead_messages';
+$route['set_messages'] = 'frontend/Message/set_message';
+$route['get_messages'] = 'frontend/Message/get_messages';
+$route['previous_messages'] = 'frontend/Message/get_previous_record';
 
 // $route['seller/(:any)'] = 'Seller/index/$1';
 // $route['users/dashboard'] = 'users/dashboard';
@@ -49,6 +68,7 @@ $route['products/(:any)'] = 'frontend/Products/product_list/$1';
 $route['default_controller'] = "Home";
 
 
+// $route['admin/seller'] = 'admin/seller/index'; //* genter settings
 
 // $this->set_directory("backend");
 
@@ -59,85 +79,88 @@ $route['Admin/index'] = 'Admin/index'; //* genter settings
 
 
 
-$route['administrator'] = 'administrator/view';
-$route['administrator/home'] = 'administrator/home';
-$route['administrator/index'] = 'administrator/view';
-$route['administrator/forget-password'] = 'administrator/forget_password';
+// $route['administrator'] = 'administrator/view';
+// $route['administrator/home'] = 'administrator/home';
+// $route['administrator/index'] = 'administrator/view';
+// $route['administrator/forget-password'] = 'administrator/forget_password';
 
-$route['administrator/dashboard'] = 'administrator/dashboard';
+// $route['administrator/dashboard'] = 'administrator/dashboard';
 
-$route['administrator/change-password'] = 'administrator/get_admin_data';
-$route['administrator/update-profile'] = 'administrator/update_admin_profile';
+// $route['administrator/change-password'] = 'administrator/get_admin_data';
+// $route['administrator/update-profile'] = 'administrator/update_admin_profile';
 
-$route['users/add-user'] = 'users/add_user';
-$route['users/users'] = 'Users/users';
-$route['users/update_user_data/(:any)'] = 'users/update_user_data/$1';
+// $route['users/add-user'] = 'users/add_user';
+// $route['users/users'] = 'Users/users';
+// $route['users/update_user_data/(:any)'] = 'users/update_user_data/$1';
 
-$route['usersgroup/usersgroup'] = 'usersgroup/usergroup';
-$route['usersgroup/addgroup'] = 'usersgroup/addgroup';
-$route['usersgroup/updategroups/(:any)'] = 'usersgroup/update_groups/$1';
+// $route['usersgroup/usersgroup'] = 'usersgroup/usergroup';
+// $route['usersgroup/addgroup'] = 'usersgroup/addgroup';
+// $route['usersgroup/updategroups/(:any)'] = 'usersgroup/update_groups/$1';
 
-$route['administrator/seller'] = 'administrator/seller';
-$route['administrator/add_seller/add_seller'] = 'administrator/add_seller';
-$route['administrator/seller/updateseller/(:any)'] = 'administrator/updateseller/$1';
+// $route['administrator/seller'] = 'administrator/seller';
+// $route['administrator/add_seller/add_seller'] = 'administrator/add_seller';
+// $route['administrator/seller/updateseller/(:any)'] = 'administrator/updateseller/$1';
 
-$route['administrator/blogs/add-blog'] = 'administrator/add_blog';
-$route['administrator/blogs/list-blog'] = 'administrator/list_blog';
-$route['administrator/blogs/update-blog'] = 'administrator/update_blog';
-
-
-//$route['administrator/delete/deletegroups/'] = 'administrator/deletegroups';
+// $route['administrator/blogs/add-blog'] = 'administrator/add_blog';
+// $route['administrator/blogs/list-blog'] = 'administrator/list_blog';
+// $route['administrator/blogs/update-blog'] = 'administrator/update_blog';
 
 
+// //$route['administrator/delete/deletegroups/'] = 'administrator/deletegroups';
+
+
+// $route['admin/seller/seller_list/(:num)'] = 'admin/seller/seller_list/$1';
 
 
 
-$route['administrator/product-categories/create'] = 'administrator/create_product_category';
-$route['administrator/product-categories/update/(:any)'] = 'administrator/update_product_category/$1';
-$route['administrator/product-categories'] = 'administrator/product_categories';
-//$route['administrator/product-categories/(:any)'] = 'administrator/update_product_category/$1';
 
-$route['administrator/products/create'] = 'administrator/create_product';
-$route['administrator/products'] = 'administrator/get_products';
-$route['administrator/products/update/(:any)'] = 'administrator/update_products/$1';
 
-$route['administrator/faq-categories/create'] = 'administrator/create_faq_category';
-$route['administrator/faq-categories/update/(:any)'] = 'administrator/update_faq_category/$1';
-$route['administrator/faq-categories'] = 'administrator/faq_categories';
+// $route['administrator/product-categories/create'] = 'administrator/create_product_category';
+// $route['administrator/product-categories/update/(:any)'] = 'administrator/update_product_category/$1';
+// $route['administrator/product-categories'] = 'administrator/product_categories';
+// //$route['administrator/product-categories/(:any)'] = 'administrator/update_product_category/$1';
 
-$route['administrator/faq/create'] = 'administrator/create_faq';
-$route['administrator/faqs'] = 'administrator/get_faqs';
-$route['administrator/faqs/update/(:any)'] = 'administrator/update_faqs/$1';
+// $route['administrator/products/create'] = 'administrator/create_product';
+// $route['administrator/products'] = 'administrator/get_products';
+// $route['administrator/products/update/(:any)'] = 'administrator/update_products/$1';
 
-$route['administrator/scopages'] = 'administrator/get_scopages';
-$route['administrator/sco-pages/update/(:any)'] = 'administrator/update_scopages/$1';
+// $route['administrator/faq-categories/create'] = 'administrator/create_faq_category';
+// $route['administrator/faq-categories/update/(:any)'] = 'administrator/update_faq_category/$1';
+// $route['administrator/faq-categories'] = 'administrator/faq_categories';
 
-$route['administrator/sociallinks'] = 'administrator/get_sociallinks';
-$route['administrator/sociallinks/update/(:any)'] = 'administrator/update_sociallinks/$1';
+// $route['administrator/faq/create'] = 'administrator/create_faq';
+// $route['administrator/faqs'] = 'administrator/get_faqs';
+// $route['administrator/faqs/update/(:any)'] = 'administrator/update_faqs/$1';
 
-$route['administrator/sliders/create'] = 'administrator/create_slider';
-$route['administrator/sliders'] = 'administrator/get_sliders';
-$route['administrator/sliders/update/(:any)'] = 'administrator/update_slider/$1';
+// $route['administrator/scopages'] = 'administrator/get_scopages';
+// $route['administrator/sco-pages/update/(:any)'] = 'administrator/update_scopages/$1';
 
-$route['administrator/site-configuration'] = 'administrator/get_siteconfiguration';
-$route['administrator/site-configuration/update/(:any)'] = 'administrator/update_siteconfiguration/$1';
+// $route['administrator/sociallinks'] = 'administrator/get_sociallinks';
+// $route['administrator/sociallinks/update/(:any)'] = 'administrator/update_sociallinks/$1';
 
-$route['administrator/page-contents'] = 'administrator/get_pagecontents';
-$route['administrator/page-contents/update/(:any)'] = 'administrator/update_pagecontents/$1';
+// $route['administrator/sliders/create'] = 'administrator/create_slider';
+// $route['administrator/sliders'] = 'administrator/get_sliders';
+// $route['administrator/sliders/update/(:any)'] = 'administrator/update_slider/$1';
 
-$route['administrator/galleries/add'] = 'galleries/galleriesLoad';
-$route['administrator/galleries'] = 'galleries/get_gallery_images';
+// $route['administrator/site-configuration'] = 'administrator/get_siteconfiguration';
+// $route['administrator/site-configuration/update/(:any)'] = 'administrator/update_siteconfiguration/$1';
 
-$route['administrator/blogs/blog-comments'] = 'administrator/list_blog_comments';
-$route['administrator/blogs/view-comment/(:any)'] = 'administrator/view_blog_comments/$1';
+// $route['administrator/page-contents'] = 'administrator/get_pagecontents';
+// $route['administrator/page-contents/update/(:any)'] = 'administrator/update_pagecontents/$1';
 
-$route['administrator/team/add'] = 'administrator/add_team';
-$route['administrator/team/list'] = 'administrator/list_team';
-$route['administrator/team/update/(:any)'] = 'administrator/update_team/(:any)';
+// $route['administrator/galleries/add'] = 'galleries/galleriesLoad';
+// $route['administrator/galleries'] = 'galleries/get_gallery_images';
 
-$route['administrator/testimonials/add'] = 'administrator/add_testimonial';
-$route['administrator/testimonials/list'] = 'administrator/list_testimonial';
-$route['administrator/testimonials/update/(:any)'] = 'administrator/update_testimonial/(:any)';
+// $route['administrator/blogs/blog-comments'] = 'administrator/list_blog_comments';
+// $route['administrator/blogs/view-comment/(:any)'] = 'administrator/view_blog_comments/$1';
+
+// $route['administrator/team/add'] = 'administrator/add_team';
+// $route['administrator/team/list'] = 'administrator/list_team';
+// $route['administrator/team/update/(:any)'] = 'administrator/update_team/(:any)';
+
+// $route['administrator/testimonials/add'] = 'administrator/add_testimonial';
+// $route['administrator/testimonials/list'] = 'administrator/list_testimonial';
+// $route['administrator/testimonials/update/(:any)'] = 'administrator/update_testimonial/(:any)';
 
 $route['(:any)'] = 'pages/view/$1';
 $route['admin/(:any)'] = 'admin/(:any)/$1';

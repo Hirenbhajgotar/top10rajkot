@@ -104,7 +104,6 @@
 
             <div class="col-md-9 mb40">
                 <div class="clearfix mb30">
-
                     <div class="pull-right">
                         <div class="form-group">
                             <select class="form-control" title="Sorting">
@@ -136,13 +135,13 @@
                                     <?php } ?>
                                 </div>
                                 <div class="col-sm-5">
-                                    <h4><a href="#"><?php echo $item->product_name ?></a></h4>
+                                    <h4><a href="<?= base_url("product_details/{$product_seo_keyword[0]->keyword}") ?>"><?php echo $item->product_name ?></a></h4>
                                     <p>
                                         <?php echo $item->product_description ?>
                                     </p>
                                 </div>
                                 <div class="col-md-4 col-sm-4">
-                                    <a href="<?= base_url("seller/{$item->seller_id}") ?>">
+                                    <a href="<?= base_url("seller/{$seller_seo_keyword[0]->keyword}") ?>">
                                         <h4><?php echo $item->seller_firstname . ' ' . $item->seller_firstname ?></h4>
                                     </a>
                                     <?php if ($item->seller_email_verify == 1) { ?>
@@ -151,37 +150,24 @@
                                     <?php if ($item->seller_mobile_verify == 1) { ?>
                                         <span> Mobile verified</span>
                                     <?php } ?>
-                                    <button class="btn btn-primary" onclick="call_inquiry('<?php echo $item->seller_id ?>', '<?php echo $item->category_id ?>')">Enquiry</button>
+                                    <button class="btn btn-primary" onclick="call_inquiry('<?php echo $item->seller_id ?>', '<?php echo $item->category_id ?>', '<?php echo $item->id ?>')">Enquiry</button>
                                 </div>
                             </div>
                             <hr>
                         <?php } ?>
                     </div>
                 </div>
+
+                <!-- pagination -->
                 <div class="text-right mb30">
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">«</span>
-                                </a>
-                            </li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">»</span>
-                                </a>
-                            </li>
+                            <?php echo $links; ?>
                         </ul>
                     </nav>
                 </div>
             </div>
             <!--/col-->
-
         </div>
     </div>
 </div>
