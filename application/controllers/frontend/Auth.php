@@ -18,8 +18,8 @@ class Auth extends CI_Controller
     // * login
     public function login()
     {
-		echo'ok';
-		exit; 	
+		// echo'ok';
+		// exit; 	
         $data['title'] = 'Sign In';
 
         $this->form_validation->set_rules('email', 'Email', 'required|trim|xss_clean');

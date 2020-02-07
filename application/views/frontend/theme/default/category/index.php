@@ -119,19 +119,14 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <?php
-                        foreach ($products as $item) {
-                            // echo '<pre>';
-                            // print_r($item);
-                            // echo '</pre>';
-                            // exit;
-                        ?>
+                        foreach ($products as $item) { ?>
                             <div class="row listing-row">
                                 <div class="col-sm-3">
                                     <?php
                                     if ($item->product_image) { ?>
-                                        <a href="#"><img src="<?php echo base_url("assets/images/products/{$item->product_image}") ?>" alt="" class="img-responsive"></a>
+                                        <a href="<?= base_url("product_details/{$product_seo_keyword[0]->keyword}") ?>"><img src="<?php echo base_url("assets/images/products/{$item->product_image}") ?>" alt="" class="img-responsive"></a>
                                     <?php } else { ?>
-                                        <a href="#"><img src="<?php echo base_url("assets/images/no-image-available-icon-6.png") ?>" alt="" class="img-responsive"></a>
+                                        <a href="<?= base_url("product_details/{$product_seo_keyword[0]->keyword}") ?>"><img src="<?php echo base_url("assets/images/no-image-available-icon-6.png") ?>" alt="" class="img-responsive"></a>
                                     <?php } ?>
                                 </div>
                                 <div class="col-sm-5">

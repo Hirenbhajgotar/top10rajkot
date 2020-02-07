@@ -82,10 +82,9 @@
                         </li>
                     <?php } else { ?>
                         <li>
-                            <!-- <a href="#" data-toggle="modal" data-target="#auth_buyer_mobile_model" class="btn btn-primary btn-lg btn-block btnSignin">Sign In</a> -->
                             <a href="" class="dropdown-toggle" data-toggle="modal" data-target="#auth_buyer_mobile_model">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                                Messages</a>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>Messages
+                            </a>
                         </li>
                     <?php } ?>
 
@@ -97,12 +96,11 @@
                             <ul class="dropdown-menu" style="width:250px;">
                                 <li class="divider"></li>
                                 <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i>My Profile</a></li>
-                                <li>
-
-                                    <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a>
-                                </li>
+                                <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i>Messages</a></li>
                                 <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i>Recent Activity</a></li>
                                 <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i>Settings</a></li>
+                                <li><a href="<?php echo site_url(); ?>edit_buyer/<?php echo $this->session->userdata('authenticated_buyer_id'); ?>"><i class="fa fa-edit" aria-hidden="true"></i>Edit Account</a></li>
+                                <li><a href="<?php echo site_url(); ?>change_password/<?php echo $this->session->userdata('authenticated_buyer_id'); ?>"><i class="fa fa-cog" aria-hidden="true"></i>Change Password</a></li>
                                 <li><a href="<?= base_url("logout") ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -221,10 +219,6 @@
                         <br>
                         <button type="button" class="btn btn-default" onclick="return  window.location.reload();" data-dismiss="modal">Close</button>
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Send message</button>
-                    </div> -->
                 </div>
             </div>
         </div>

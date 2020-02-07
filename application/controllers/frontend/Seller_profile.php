@@ -34,7 +34,13 @@ class Seller_profile extends CI_Controller
 		$data['product'] = $this->Sellerprofile->get_product($seo);
 		$data['banner'] = $this->Sellerprofile->get_banner($seo);		
 		$data['about'] = $this->Sellerprofile->get_about_us($seo);
-		
+
+		$i = 0;
+		foreach ($data['product'] as $pre) {
+			$seo_p = $this->Sellerprofile->get_product_seo($pre['id']);
+			$data['product'][$i]['product_seo_keyword'] = $seo_p->keyword;
+			$i++;
+		} 
 		// echo '<pre>';
 		// print_r($data);
 		// echo '</pre>';
@@ -44,7 +50,7 @@ class Seller_profile extends CI_Controller
 		$data['metaData']['description'] = $data['sec_meta_data']['meta_description'];
 		$data['metaData']['keyword'] = $data['sec_meta_data']['meta_keyword'];
 		$data['metaData']['icon'] = $data['metaData'][5]->value;
-		$data['metaData']['logo'] = $data['metaData'][4]->value;
+		$data['metaData']['logo'] = $data['metaData'][4]->value; 
 		
 		$this->load->view('frontend/theme/default/templates/header',$data);  
 		$this->load->view('frontend/theme/default/seller/'.$page);

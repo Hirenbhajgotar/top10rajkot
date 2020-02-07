@@ -50,6 +50,9 @@ $route['set_messages'] = 'frontend/Message/set_message';
 $route['get_messages'] = 'frontend/Message/get_messages';
 $route['previous_messages'] = 'frontend/Message/get_previous_record';
 
+// * edit buyer profile
+$route['edit_buyer/(:any)'] = 'frontend/Edit_buyer/edit/$1';
+$route['change_password/(:any)'] = 'frontend/Change_password/change/$1';
 // $route['seller/(:any)'] = 'Seller/index/$1';
 // $route['users/dashboard'] = 'users/dashboard';
 // $route['comments/create/(:any)'] = 'comments/create/$1';

@@ -57,15 +57,8 @@ class Message extends CI_Controller
     // * get messages
     public function get_messages()
     {
-        // echo 'File name:'. ' ' .__FILE__;
-        // echo '<br>';
-        // echo 'Line no.:'. ' '.__LINE__;
-        // exit;
         $data = $this->Message_model->get_messages();
-        // echo '<pre>';
-        // print_r($data);
-        // echo '</pre>';
-        // exit;
+        
         $html_output1 = '';
 
         foreach ($data as $item) {
@@ -136,42 +129,46 @@ class Message extends CI_Controller
         $header_info = $this->Message_model->get_lead_info($leadId);
 
         $html_output = '';
+        if ($num_rows > 0) {
+            foreach ($msgs as $item) {
 
-        foreach ($msgs as $item) {
+                if ($item->send_from_seller == 1) {
+                    $html_output .= "<div class='row' id='seller_message'>";
+                    $html_output .= $item->messages;
+                    $html_output .= "</div>";
+                }
+                if ($item->send_from_buyer == 1) {
+                    $html_output .= "<div class='row' id='buyer_message'>";
+                    $html_output .= "<div class='text-right'>";
+                    $html_output .= $item->messages;
+                    $html_output .= "</div>";
+                    $html_output .= "</div>";
+                }
+            }
 
-            if ($item->send_from_seller == 1) {
-                $html_output .= "<div class='row' id='seller_message'>";
-                $html_output .= $item->messages;
-                $html_output .= "</div>";
-            }
-            if ($item->send_from_buyer == 1) {
-                $html_output .= "<div class='row' id='buyer_message'>";
-                $html_output .= "<div class='text-right'>";
-                $html_output .= $item->messages;
-                $html_output .= "</div>";
-                $html_output .= "</div>";
-            }
+            $output = [
+                'status'      => 'ok',
+                'content'     => $html_output,
+                'header_info' => $header_info,
+                'num_rows'    => $num_rows,
+                'buyerId'     => $item->buyer_id,
+                'sellerId'    => $item->seller_id,
+                'leadId'      => $item->lead_id,
+            ];
+
+            return json_encode($output);
+            exit();
+        } else {
+            $output = [
+                'status'      => 'ok',
+                'content'     => '',
+                'header_info' => $header_info,
+            ];
+
+            return json_encode($output);
+            exit();
         }
-        // $html_output .= "<br><br>";
-        // $html_output .= "<form id='chat_message_form'>";
-        // $html_output .= "<textarea class='form-control' name='ajax_message_field' id='message_field' rows='3'></textarea>";
-        // $html_output .= "<input type='hidden' name='ajax_chat_buyer_id' value='$item->buyer_id'>";
-        // $html_output .= "<input type='hidden' name='ajax_chat_seller_id' value='$item->seller_id '>";
-        // $html_output .= "<input type='hidden' name='ajax_chat_lead_id' value='$item->lead_id'>";
-        // $html_output .= "<button id='MessageSubmitAjax' onclick='sendChatMessages()' type='submit' class='btn btn-primary'>Send</button>";
-        // $html_output .= "</form>";
-
-        $output = [
-            'status'      => 'ok',
-            'content'     => $html_output,
-            'header_info' => $header_info,
-            'num_rows'    => $num_rows,
-            'buyerId'     => $item->buyer_id,
-            'sellerId'    => $item->seller_id,
-            'leadId'      => $item->lead_id,
-        ];
         
-        return json_encode($output);
     }
 
 

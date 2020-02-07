@@ -14,9 +14,7 @@ class Seller_contact extends CI_Controller
         $this->perPage = $per_page->value; 
 		$this->load->model('frontend/Sellerprofile');
 		$this->load->library('ajax_pagination');
-		$this->perPage = 5;
-		
-		  
+		// $this->perPage = 5;
 	}
 	
 	
@@ -32,9 +30,14 @@ class Seller_contact extends CI_Controller
 		$data['address'] = $this->Sellerprofile->get_address($data['seller']['seller_id']);
 	    $data['country'] = $this->Sellerprofile->get_country($data['address']['country_id']);
 		$data['state'] = $this->Sellerprofile->get_state($data['address']['state_id']);
+
 		$data['sec_meta_data'] = $this->Sellerprofile->get_seller($seo);
-		
-		
+
+		$data['metaData']['title'] = $data['sec_meta_data']['meta_title'];
+		$data['metaData']['description'] = $data['sec_meta_data']['meta_description'];
+		$data['metaData']['keyword'] = $data['sec_meta_data']['meta_keyword'];
+		$data['metaData']['icon'] = $data['metaData'][5]->value;
+		$data['metaData']['logo'] = $data['metaData'][4]->value;
 		//$data['banner'] = $this->Sellerprofile->get_banner($seo);
 		
 		//$data['about'] = $this->Sellerprofile->get_about_us($seo);
@@ -59,6 +62,13 @@ class Seller_contact extends CI_Controller
 	    $data['country'] = $this->Sellerprofile->get_country($data['address']['country_id']);
 		$data['state'] = $this->Sellerprofile->get_state($data['address']['state_id']);
 		$data['sec_meta_data'] = $this->Sellerprofile->get_seller($seo);
+
+		$data['metaData']['title'] = $data['sec_meta_data']['meta_title'];
+		$data['metaData']['description'] = $data['sec_meta_data']['meta_description'];
+		$data['metaData']['keyword'] = $data['sec_meta_data']['meta_keyword'];
+		$data['metaData']['icon'] = $data['metaData'][5]->value;
+		$data['metaData']['logo'] = $data['metaData'][4]->value;
+
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('message', 'Message', 'required');

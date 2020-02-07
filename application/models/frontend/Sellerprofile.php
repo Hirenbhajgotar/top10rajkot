@@ -15,6 +15,7 @@
 			$query = $this->db->query("Select * from ".DB_SEO_URL." se LEFT JOIN ".DB_SELLER_HOME_CONTENT." h ON TRIM(BOTH 'seller_id=' FROM se.query) = h.seller_id LEFT JOIN ".DB_SELLER." s ON TRIM(BOTH 'seller_id=' FROM se.query)  = s.id where se.query LIKE 'seller_id=%' AND se.keyword LIKE '$seo'");
 			return $query->row_array();
 		}
+
 		public function get_address($id){
 			
 			$query = $this->db->query("Select * from ".DB_ADDRESS." a where a.seller_id = '$id'");
@@ -60,6 +61,14 @@
 			return $query->row_array();
 			
 		}
+
+		public function get_product_seo($id = '')
+		{
+			$sql = "SELECT distinct se.keyword as keyword FROM `tr_seo_url` as se WHERE TRIM(BOTH 'product_id=' FROM se.query) = $id  ";
+			$query = $this->db->query($sql);
+			return $query->row();
+		}
+		
 		
 		
 		

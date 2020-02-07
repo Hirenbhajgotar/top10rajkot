@@ -71,4 +71,18 @@ class Products_model extends CI_Model
             return $query->result();
         }
     }
+
+    public function get_product_seo($id = '')
+    {
+        $sql = "SELECT distinct se.keyword as keyword FROM `tr_seo_url` as se WHERE TRIM(BOTH 'product_id=' FROM se.query) = $id  ";
+        $query = $this->db->query($sql);
+        return $query->row();
+    }
+
+
+
+
+
+
+
 }
